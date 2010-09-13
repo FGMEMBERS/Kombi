@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+************************************************************************
+Volkswagen kombi 1966
+Out 2009 - Prestes Hangar - Isaias V. Prestes
+************************************************************************
+-->
+
+<PropertyList include="kombi-base.xml">
+
+  <sim>
+
+    <description>Volkswagen Kombi (YASim)</description>
+    <flight-model>yasim</flight-model>
+    <aero>kombi-yasim</aero>
+
+  </sim>
+    
+</PropertyList>
