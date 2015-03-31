@@ -1,0 +1,560 @@
+<PropertyList>
+ <path>kombi-gears.ac</path>
+
+	<offsets>
+		<z-m>0.0</z-m>
+	</offsets>
+  <effect>
+    <inherits-from>Effects/model-transparent</inherits-from>
+      <object-name>turnsignallens</object-name>
+	<object-name>headlightglass</object-name>
+	<object-name>glass</object-name>
+      <object-name>leadlight-lens</object-name> 
+    </effect>
+
+  <nasal>
+    <load>
+	var self = cmdarg();
+	self.getNode("controls/door-left", 1).alias(self.getNode("sim/multiplay/generic/int[1]"));
+	self.getNode("controls/door-right", 1).alias(self.getNode("sim/multiplay/generic/int[2]"));
+	self.getNode("controls/lighting/left_turn", 1).alias(self.getNode("sim/multiplay/generic/int[3]"));
+	self.getNode("controls/lighting/right_turn", 1).alias(self.getNode("sim/multiplay/generic/int[4]"));
+	self.getNode("controls/gear/brake-left", 1).alias(self.getNode("sim/multiplay/generic/float[5]"));
+	self.getNode("controls/lighting/headlamp", 1).alias(self.getNode("sim/multiplay/generic/int[6]"));
+	self.getNode("controls/lighting/rev-gear", 1).alias(self.getNode("sim/multiplay/generic/int[7]"));
+	self.getNode("engines/engine/running", 1).alias(self.getNode("sim/multiplay/generic/int[8]"));
+	self.getNode("controls/horn/horn", 1).alias(self.getNode("sim/multiplay/generic/int[9]"));
+	self.getNode("gear/gear[0]/rollspeed-ms", 1).alias(self.getNode("sim/multiplay/generic/float[10]"));
+	self.getNode("gear/gear[1]/rollspeed-ms", 1).alias(self.getNode("sim/multiplay/generic/float[11]"));
+	self.getNode("gear/gear[2]/rollspeed-ms", 1).alias(self.getNode("sim/multiplay/generic/float[12]"));
+	self.getNode("gear/gear[3]/rollspeed-ms", 1).alias(self.getNode("sim/multiplay/generic/float[13]"));
+	self.getNode("controls/flight/aileron", 1).alias(self.getNode("sim/multiplay/generic/float[14]"));
+	self.getNode("engines/engine/rpm", 1).alias(self.getNode("sim/multiplay/generic/float[15]"));
+	
+    </load>
+    <unload>
+			print ("bye");
+			##loopid += 1;
+    </unload>
+  </nasal>
+
+ <sound><path>Aircraft/Kombi/Sounds/Kombi-sounds.xml</path></sound>
+
+<!-- instruments -->
+
+   <model>
+    <path>Aircraft/Kombi/Models/Interior/panel/Instruments/speed/speed.xml</path>
+    <offsets>
+      <x-m> -1.55105 </x-m>
+      <y-m>  -0.36831 </y-m>
+      <z-m>  0.5601 </z-m>
+      <roll-deg>    0 </roll-deg>
+      <pitch-deg> -69 </pitch-deg>
+      <heading-deg> 0 </heading-deg>
+    </offsets>
+  </model>
+ 
+ <!--effects-->
+ 
+     <model>
+        <path>Aircraft/Kombi/Models/Effects/exhaust.xml</path>
+        <name>exhaust</name>
+		<condition>
+         <equals>
+          <property>engines/engine/running</property>
+          <value>1</value>
+         </equals>
+        </condition>
+        <offsets>
+            <x-m>1.972</x-m>
+            <y-m>-0.382</y-m>
+            <z-m>-0.351</z-m>
+        </offsets>
+    </model>
+
+	 <model>
+        <path>Aircraft/Kombi/Models/Effects/reheat.xml</path>
+        <name>reheat</name> 
+		<condition>
+	     <equals>
+          <property>engines/engine/reheat-smoke</property>
+          <value>1</value>
+         </equals>
+		</condition>
+        <offsets>
+            <x-m>1.95</x-m>
+            <y-m>0</y-m>
+            <z-m>-0.35</z-m>
+        </offsets>
+    </model>
+
+<!-- turn/brakelights -->
+
+   <animation>
+  <type>material</type>
+  <object-name>turnsignals-left</object-name>
+  <condition>
+    <equals>
+     <property>controls/lighting/left_turn</property>
+     <value>1</value>
+    </equals>
+  </condition>
+  <emission>
+   <red>1.39</red>
+   <green>1.39</green>
+   <blue>0.0</blue>
+  </emission>
+ </animation>
+
+<animation>
+  <type>material</type>
+  <object-name>turnsignals-right</object-name>
+  <condition>
+    <equals>
+     <property>controls/lighting/right_turn</property>
+     <value>1</value>
+    </equals>
+  </condition>
+  <emission>
+   <red>1.39</red>
+   <green>1.39</green>
+   <blue>0.0</blue>
+  </emission>
+ </animation>
+
+ <animation>
+  <type>material</type>
+  <object-name>tailights</object-name>
+    <condition>
+      <greater-than>
+          <property>controls/gear/brake-right</property>
+          <value> 0.1 </value>
+        </greater-than>
+    </condition>
+  <emission>
+   <red>1.25</red>
+   <green>1.25</green>
+   <blue>1.25</blue>
+  </emission>
+ </animation>
+
+  <!-- Rembrandt lighting effects -->
+
+   <model>
+    <path>Aircraft/Kombi/Models/Lights/HeadLight.xml</path>
+    <condition>
+      <not><property>sim/rendering/rembrandt/enabled</property></not>
+    </condition>
+    <offsets>
+      <x-m> -1.873 </x-m>
+      <y-m>  -0.524 </y-m>
+      <z-m>  0.152 </z-m>
+      <roll-deg>    0 </roll-deg>
+      <pitch-deg> -2 </pitch-deg>
+      <heading-deg> 0 </heading-deg>
+    </offsets>
+  </model>
+
+   <model>
+    <path>Aircraft/Kombi/Models/Lights/HeadLight.xml</path>
+    <condition>
+      <not><property>sim/rendering/rembrandt/enabled</property></not>
+    </condition>
+    <offsets>
+      <x-m> -1.873 </x-m>
+      <y-m>  0.524 </y-m>
+      <z-m>  0.152 </z-m>
+      <roll-deg>    0 </roll-deg>
+      <pitch-deg> -2 </pitch-deg>
+      <heading-deg> 0 </heading-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Kombi/Models/Lights/HeadLight-rembrandt.xml</path>
+    <condition>
+      <property>sim/rendering/rembrandt/enabled</property>
+    </condition>
+    <offsets>
+       <x-m> -1.873 </x-m>
+      <y-m>  -0.524 </y-m>
+      <z-m>  0.152 </z-m>
+      <roll-deg>    0 </roll-deg>
+      <pitch-deg> -2 </pitch-deg>
+      <heading-deg> 0 </heading-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Kombi/Models/Lights/HeadLight-rembrandt.xml</path>
+    <condition>
+      <property>sim/rendering/rembrandt/enabled</property>
+    </condition>
+    <offsets>
+       <x-m> -1.873 </x-m>
+      <y-m>  0.524 </y-m>
+      <z-m>  0.152 </z-m>
+      <roll-deg>    0 </roll-deg>
+      <pitch-deg> -2 </pitch-deg>
+      <heading-deg> 0 </heading-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Kombi/Models/Lights/TailLight.xml</path>
+    <condition>
+      <not><property>sim/rendering/rembrandt/enabled</property></not>
+    </condition>
+    <offsets>
+      <x-m> 1.943 </x-m>
+      <y-m>  -0.55 </y-m>
+      <z-m>  0.0723 </z-m>
+      <roll-deg>    0 </roll-deg>
+      <pitch-deg>   0 </pitch-deg>
+      <heading-deg> 0 </heading-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Kombi/Models/Lights/TailLight.xml</path>
+    <condition>
+      <not><property>sim/rendering/rembrandt/enabled</property></not>
+    </condition>
+    <offsets>
+      <x-m> 1.943 </x-m>
+      <y-m>  0.55 </y-m>
+      <z-m>  0.0723 </z-m>
+      <roll-deg>    0 </roll-deg>
+      <pitch-deg>   0 </pitch-deg>
+      <heading-deg> 0 </heading-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Kombi/Models/Lights/TailLight-rembrandt.xml</path>
+    <condition>
+      <property>sim/rendering/rembrandt/enabled</property>
+    </condition>
+    <offsets>
+      <x-m> 1.943 </x-m>
+      <y-m>  -0.55 </y-m>
+      <z-m>  0.0723 </z-m>
+      <roll-deg>    0 </roll-deg>
+      <pitch-deg>   0 </pitch-deg>
+      <heading-deg> 0 </heading-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Kombi/Models/Lights/TailLight-rembrandt.xml</path>
+    <condition>
+      <property>sim/rendering/rembrandt/enabled</property>
+    </condition>
+    <offsets>
+      <x-m> 1.943 </x-m>
+      <y-m>  0.55 </y-m>
+      <z-m>  0.0723 </z-m>
+      <roll-deg>    0 </roll-deg>
+      <pitch-deg>   0 </pitch-deg>
+      <heading-deg> 0 </heading-deg>
+    </offsets>
+  </model>
+
+<!-- wheels anim. -->
+
+<!-- suspension -->
+
+ <animation>
+  <type>translate</type>
+  <object-name>hub-emblem1-l-fr</object-name>
+  <object-name>hub-emblem2-l-fr</object-name>
+  <object-name>l-fr-wheel</object-name>
+  <object-name>l-fr-tire</object-name>
+  <property>gear/gear[0]/compression-norm</property>
+  <interpolation>
+   <entry>
+    <ind>0.0</ind>
+    <dep>-0.02</dep>
+   </entry>
+   <entry>
+    <ind>1.00</ind>
+    <dep>0.2</dep>
+   </entry>
+  </interpolation>
+  <axis>
+   <x>0</x>
+   <y>0</y>
+   <z>1</z>
+  </axis>
+ </animation>
+
+  <animation>
+  <type>translate</type>
+  <object-name>hub-emblem1-r-fr</object-name>
+  <object-name>hub-emblem2-r-fr</object-name>
+  <object-name>r-fr-wheel</object-name>
+  <object-name>r-fr-tire</object-name>
+  <property>gear/gear[1]/compression-norm</property>
+  <interpolation>
+   <entry>
+    <ind>0.0</ind>
+    <dep>-0.02</dep>
+   </entry>
+   <entry>
+    <ind>1.00</ind>
+    <dep>0.2</dep>
+   </entry>
+  </interpolation>
+  <axis>
+   <x>0</x>
+   <y>0</y>
+   <z>1</z>
+  </axis>
+ </animation>
+
+  <animation>
+  <type>translate</type>
+  <object-name>hub-emblem1-l-rr</object-name>
+  <object-name>hub-emblem2-l-rr</object-name>
+  <object-name>l-rr-wheel</object-name>
+  <object-name>l-rr-tire</object-name>
+  <property>gear/gear[2]/compression-norm</property>
+  <interpolation>
+   <entry>
+    <ind>0.0</ind>
+    <dep>-0.03</dep>
+   </entry>
+   <entry>
+    <ind>1.00</ind>
+    <dep>0.2</dep>
+   </entry>
+  </interpolation>
+  <axis>
+   <x>0</x>
+   <y>0</y>
+   <z>1</z>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>translate</type>
+  <object-name>hub-emblem1-r-rr</object-name>
+  <object-name>hub-emblem2-r-rr</object-name>
+  <object-name>r-rr-wheel</object-name>
+  <object-name>r-rr-tire</object-name>
+  <property>gear/gear[3]/compression-norm</property>
+  <interpolation>
+   <entry>
+    <ind>0.0</ind>
+    <dep>-0.03</dep>
+   </entry>
+   <entry>
+    <ind>1.00</ind>
+    <dep>0.2</dep>
+   </entry>
+  </interpolation>
+  <axis>
+   <x>0</x>
+   <y>0</y>
+   <z>1</z>
+  </axis>
+ </animation>
+
+ <!-- steering wheel -->
+
+  <animation>
+  <type>rotate</type>
+  <object-name>steeringwheel</object-name>
+  <property>controls/flight/aileron</property>
+  <factor>-220</factor>
+  <axis>
+   <x1-m>-1.5313</x1-m>
+   <y1-m>-0.3684</y1-m>
+   <z1-m>-0.00064</z1-m>
+   <x2-m>-1.3966</x2-m>
+   <y2-m>-0.3684</y2-m>
+   <z2-m>0.5395</z2-m>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+  <object-name>hub-emblem1-l-fr</object-name>
+  <object-name>hub-emblem2-l-fr</object-name>
+  <object-name>l-fr-wheel</object-name>
+  <object-name>l-fr-tire</object-name>
+  <property>controls/flight/aileron</property>
+  <factor>-35</factor>
+  <center>
+   <x-m>-1.0638</x-m>
+   <y-m>-0.6643</y-m>
+   <z-m>-0.3408</z-m>
+  </center>
+  <axis>
+   <x>0.0</x>
+   <y>0.0</y>
+   <z>1.0</z>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+  <object-name>hub-emblem1-r-fr</object-name>
+  <object-name>hub-emblem2-r-fr</object-name>
+  <object-name>r-fr-wheel</object-name>
+  <object-name>r-fr-tire</object-name>
+  <property>controls/flight/aileron</property>
+  <factor>-35</factor>
+  <center>
+   <x-m>-1.0638</x-m>
+   <y-m> 0.6643</y-m>
+   <z-m>-0.3408</z-m>
+  </center>
+  <axis>
+   <x>0.0</x>
+   <y>0.0</y>
+   <z>1.0</z>
+  </axis>
+ </animation>
+
+<!-- Wheel spin anim -->
+
+ <animation>
+  <type>spin</type>
+  <object-name>hub-emblem1-l-fr</object-name>
+  <object-name>hub-emblem2-l-fr</object-name>
+  <object-name>l-fr-wheel</object-name>
+  <object-name>l-fr-tire</object-name>
+  <property>gear/gear[0]/rollspeed-ms</property>
+  <factor>-25</factor>
+  <center>
+   <x-m>-1.0638</x-m>
+   <y-m>-0.6643</y-m>
+   <z-m>-0.34842</z-m>
+  </center>
+  <axis>
+   <x>0.0</x>
+   <y>1.0</y>
+   <z>0.0</z>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>spin</type>
+  <object-name>hub-emblem1-r-fr</object-name>
+  <object-name>hub-emblem2-r-fr</object-name>
+  <object-name>r-fr-wheel</object-name>
+  <object-name>r-fr-tire</object-name>
+  <property>gear/gear[1]/rollspeed-ms</property>
+  <factor>-25</factor>
+  <center>
+   <x-m>-1.0638</x-m>
+   <y-m>0.6643</y-m>
+   <z-m>-0.34842</z-m>
+  </center>
+  <axis>
+   <x>0.0</x>
+   <y>1.0</y>
+   <z>0.0</z>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>spin</type>
+  <object-name>hub-emblem1-l-rr</object-name>
+  <object-name>hub-emblem2-l-rr</object-name>
+  <object-name>l-rr-wheel</object-name>
+  <object-name>l-rr-tire</object-name>
+  <property>gear/gear[2]/rollspeed-ms</property>
+  <factor>-25</factor>
+  <center>
+   <x-m>1.2281</x-m>
+   <y-m>-0.6643</y-m>
+   <z-m>-0.34842</z-m>
+  </center>
+  <axis>
+   <x>0.0</x>
+   <y>1.0</y>
+   <z>0.0</z>
+  </axis>
+ </animation>
+
+<animation>
+  <type>spin</type>
+  <object-name>hub-emblem1-r-rr</object-name>
+  <object-name>hub-emblem2-r-rr</object-name>
+  <object-name>r-rr-wheel</object-name>
+  <object-name>r-rr-tire</object-name>
+  <property>gear/gear[3]/rollspeed-ms</property>
+  <factor>-25</factor>
+  <center>
+   <x-m>1.2281</x-m>
+   <y-m>0.6643</y-m>
+   <z-m>-0.34842</z-m>
+  </center>
+  <axis>
+   <x>0.0</x>
+   <y>1.0</y>
+   <z>0.0</z>
+  </axis>
+ </animation>
+
+<!-- gear selector anim. -->
+
+ <animation>
+  <object-name>gear-selector</object-name>
+  <type>rotate</type>
+  <property>controls/gearstick-y</property>
+  <factor>-1</factor>
+  <center>
+   <x-m>-1.518</x-m>
+   <y-m>-0.113</y-m>
+   <z-m>0.05</z-m>
+  </center>
+  <axis>
+   <x>0</x>
+   <y>1</y>
+   <z>0</z>
+  </axis>
+ </animation>
+
+  <animation>
+  <object-name>gear-selector</object-name>
+  <type>rotate</type>
+  <property>controls/gearstick-x</property>
+  <factor>-1</factor>
+  <center>
+   <x-m>-1.518</x-m>
+   <y-m>-0.113</y-m>
+   <z-m>0.05</z-m>
+  </center>
+  <axis>
+   <x>1</x>
+   <y>0</y>
+   <z>0</z>
+  </axis>
+ </animation>
+	
+
+ <!-- handbrake -->
+ <animation>
+  <object-name>parkbrake</object-name>
+  <type>rotate</type>
+  <property>controls/gear/brake-parking</property>
+  <factor>30</factor>
+  <offset-deg>0</offset-deg>
+  <center>
+   <x-m>-1.609</x-m>
+   <y-m>-0.0405</y-m>
+   <z-m>0.079</z-m>
+  </center>
+  <axis>
+   <x>0</x>
+   <y>1</y>
+   <z>0</z>
+  </axis>
+ </animation>
+
+
+</PropertyList>
+ 
