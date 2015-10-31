@@ -127,6 +127,10 @@
 
   <help>
     <key>
+      <name>backspace</name>
+      <desc>Clutch</desc>
+    </key>
+    <key>
       <name>Home</name>
       <desc>Shift up</desc>
     </key>

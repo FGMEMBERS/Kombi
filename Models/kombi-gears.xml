@@ -72,21 +72,6 @@
         </offsets>
     </model>
 
-	 <model>
-        <path>Aircraft/Kombi/Models/Effects/reheat.xml</path>
-        <name>reheat</name> 
-		<condition>
-	     <equals>
-          <property>engines/engine/reheat-smoke</property>
-          <value>1</value>
-         </equals>
-		</condition>
-        <offsets>
-            <x-m>1.95</x-m>
-            <y-m>0</y-m>
-            <z-m>-0.35</z-m>
-        </offsets>
-    </model>
 
 <!-- turn/brakelights -->
 
